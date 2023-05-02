@@ -1,0 +1,134 @@
+<html>
+    <head>
+        <title>
+            test
+        </title>
+    </head>
+    
+    <body>
+        <p>Dulinan Game Gae JavaScript</p>
+        <button
+            onclick="
+            player = tombol()
+            status1('Gunting')
+            "
+        >Gunting
+        </button>
+
+        <button
+            onclick="
+            player = tombol()
+            status1('Batu');
+            "
+        >Batu
+        </button>
+        
+        <button
+            onclick="
+            player = tombol()
+            status1('Kertas');
+            "
+        >Kertas
+        </button>
+        <p class="js-hasil"></p>
+        <p class="js-aktor"></p>
+        <p class="js-nilaiTotal"></p>
+        <button
+            onclick="
+
+                totalGame.menang=0;
+                totalGame.kalah=0;
+                totalGame.imbang=0;
+                total:0
+                /*mereset skor permainan jika halaman di refresh*/
+                localStorage.removeItem('totalGame');
+                updateSkor()
+            alert('Skor telah direset. Mainkan Lagi!')"
+        >Reset Skor
+        </button>
+        
+        <script>
+
+            let totalGame = JSON.parse(localStorage.getItem('totalGame'));
+
+            if(totalGame === null){
+                totalGame = {
+                    menang:0,
+                    kalah:0,
+                    imbang:0,
+                    total:0
+                }; 
+            }
+
+            
+            
+            function updateSkor(){
+                document.querySelector('.js-nilaiTotal').innerHTML = `Menang = ${totalGame.menang} , Kalah = ${totalGame.kalah} , Imbang = ${totalGame.imbang} , Total Permainan = ${total = totalGame.menang+totalGame.imbang+totalGame.kalah}`
+            }
+
+            function tombol(){
+                const angkaRandom = Math.random(); /*melakukan manipulasi angka yang akan dilakukan komputer*/
+                let player=''; /*untuk menampung hasil nilai yang berbeda beda dari variabel angkaRandom*/
+
+                if (angkaRandom>=0 && angkaRandom<1/3){/*kondisi 1 menampilkan Gunting*/
+                    player = 'Gunting';
+                }else if(angkaRandom >=1/3 && angkaRandom<2/3){/*kondisi 1 menampilkan Batu*/
+                    player = 'Batu'
+                }else if(angkaRandom >=2/3 && angkaRandom<1){/*kondisi 1 menampilkan Kertas*/
+                    player = 'Kertas'
+                }
+                console.log(player)
+            return player;    
+            }
+
+            function status1(komputer){
+
+                let hasil = ''; /*untuk menampung hasil dari tiap kondisi*/
+                if(komputer === 'Gunting'){/*jika kamu memilih gunting lalu komputer memilih salah satu dari kondisi yang kamu pilih maka mengeluarkan nilai hasil dari tiap kondisi*/
+                    if(player === 'Gunting'){
+                        hasil = 'Imbang';
+                    }else if(player === 'Batu'){
+                        hasil ='Kalah'
+                    }else if(player === 'Kertas'){
+                        hasil = 'Menang'
+                    }
+                }else if(komputer === 'Batu'){/*jika kamu memilih batu lalu komputer memilih salah satu dari kondisi yang kamu pilih maka mengeluarkan nilai hasil dari tiap kondisi*/
+                    if(player === 'Gunting'){
+                        hasil = 'Menang';
+                    }else if(player === 'Batu'){
+                        hasil ='Imbang'
+                    }else if(player === 'Kertas'){
+                        hasil = 'Kalah'
+                    }
+                }else if(komputer === 'Kertas'){/*jika kamu memilih kertas lalu komputer memilih salah satu dari kondisi yang kamu pilih maka mengeluarkan nilai hasil dari tiap kondisi*/
+                    if(player === 'Gunting'){
+                        hasil = 'Kalah';
+                    }else if(player === 'Batu'){
+                        hasil ='Menang'
+                    }else if(player === 'Kertas'){
+                        hasil = 'Imbang'
+                    }
+                }
+
+                /*total permainan dari menang,kalah,imbang*/
+                if(hasil === 'Imbang'){/*apabila hasil imbang, maka atribut imbang pada variable totalGame akan ditambahkan 1*/
+                    totalGame.imbang++;
+                }else if(hasil === 'Kalah'){/*apabila hasil kalah, maka atribut imbang pada variable totalGame akan ditambahkan 1*/
+                    totalGame.kalah++;
+                }else if(hasil === 'Menang'){/*apabila hasil menang, maka atribut imbang pada variable totalGame akan ditambahkan 1*/
+                    totalGame.menang++;
+                }
+
+                /*menyimpan hasil total permainan kedalam localstorage*/
+                localStorage.setItem('totalGame', JSON.stringify(totalGame));
+
+                updateSkor()
+
+                document.querySelector('.js-hasil').innerHTML = `Kamu : ${hasil}`
+
+                document.querySelector('.js-aktor').innerHTML = `Kamu pilih : ${player} - Komputer pilih : ${komputer}.`
+            }
+        </script>
+    
+    </body>
+</html>
